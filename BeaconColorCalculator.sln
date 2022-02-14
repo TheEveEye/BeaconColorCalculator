@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeaconColorCalculator", "BeaconColorCalculator\BeaconColorCalculator.csproj", "{8CC061E8-20EB-40A7-80F0-8E96EE91BCAD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8CC061E8-20EB-40A7-80F0-8E96EE91BCAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CC061E8-20EB-40A7-80F0-8E96EE91BCAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CC061E8-20EB-40A7-80F0-8E96EE91BCAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CC061E8-20EB-40A7-80F0-8E96EE91BCAD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {03A8090B-8D97-4CFF-A312-024E80DA0C5D}
+	EndGlobalSection
+EndGlobal
