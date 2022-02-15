@@ -176,7 +176,7 @@ namespace BeaconColorCalculator
             {
                 hue = (green - blue) / (max - min);
             }
-            else if (max == g)
+            else if (max == green)
             {
                 hue = 2 + (blue - red) / (max - min);
             }
@@ -194,23 +194,25 @@ namespace BeaconColorCalculator
         }
         public int GetBrightness()
         {
-            double luminance = (double)(r + g + b) / 3 / 255;
+            double luminance = (double)(red + green + blue) / 3 / 255;
             return Convert.ToInt32(Math.Round(luminance));
         }
         public SolidColorBrush FindBackgroundColor()
         {
+            SolidColorBrush color = new SolidColorBrush(Colors.Black);
             if (GetHue() < 240 && GetHue() > 60)
             {
-                return new SolidColorBrush(Colors.Black);
+                color = new(Colors.Black);
             }
             else
             {
-                return new SolidColorBrush(Colors.White);
+                color = new(Colors.White);
             }
             if (GetBrightness() > 0.5)
             {
-                return new SolidColorBrush(Colors.Black);
+                color = new(Colors.Black);
             }
+            return color;
         }
     }
 
@@ -281,26 +283,26 @@ namespace BeaconColorCalculator
         {
             int glass1 = 0;
             int glass2 = 0;
-            //int glass3 = 0;
-            //int glass4 = 0;
-            //int glass5 = 0;
-            //int glass6 = 0;
+            int glass3 = 0;
+            int glass4 = 0;
+            int glass5 = 0;
+            int glass6 = 0;
 
-            Glass[] bestComb = new Glass[2];
+            Glass[] bestComb = new Glass[6];
             int bestDifference = 765;
             RGB bestColor = new RGB(0, 0, 0);
-            Glass[] currentComb = new Glass[2];
+            Glass[] currentComb = new Glass[6];
             int difference = 0;
             RGB color = new RGB(0, 0, 0);
 
-            for (int i = 0; (i < Math.Pow(16, 2) / 2) || (bestDifference == 0); i++)
+            for (int i = 0; (glass6 < 15) || (bestDifference == 0); i++)
             {
                 currentComb[0] = glasses[glass1];
                 currentComb[1] = glasses[glass2];
-                //currentComb[2] = glasses[glass3];
-                //currentComb[3] = glasses[glass4];
-                //currentComb[4] = glasses[glass5];
-                //currentComb[5] = glasses[glass6];
+                currentComb[2] = glasses[glass3];
+                currentComb[3] = glasses[glass4];
+                currentComb[4] = glasses[glass5];
+                currentComb[5] = glasses[glass6];
 
                 glass1++;
 
@@ -308,6 +310,26 @@ namespace BeaconColorCalculator
                 {
                     glass1 -= 16;
                     glass2++;
+                }
+                if (glass2 > 15)
+                {
+                    glass2 -= 16;
+                    glass3++;
+                }
+                if (glass3 > 15)
+                {
+                    glass3 -= 16;
+                    glass4++;
+                }
+                if (glass4 > 15)
+                {
+                    glass4 -= 16;
+                    glass5++;
+                }
+                if (glass5 > 15)
+                {
+                    glass5 -= 16;
+                    glass6++;
                 }
 
                 color = FindAverageColor(currentComb);
@@ -317,7 +339,12 @@ namespace BeaconColorCalculator
                 {
                     bestDifference = difference;
                     bestColor = color;
-                    bestComb = currentComb;
+                    bestComb[0] = currentComb[0];
+                    bestComb[1] = currentComb[1];
+                    bestComb[2] = currentComb[2];
+                    bestComb[3] = currentComb[3];
+                    bestComb[4] = currentComb[4];
+                    bestComb[5] = currentComb[5];
                 }
             }
 
@@ -344,7 +371,7 @@ namespace BeaconColorCalculator
 
             
             
-            RGB target = RGB.FromHex("#FF4500");
+            /*RGB target = RGB.FromHex("#FF4500");
             GlassCombination output = Glass.FindBestCombination(target);
             lbl_outputColor.Content = output.GetRGB().ToString();
             lbl_outputColor.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 255, 255));
@@ -362,18 +389,19 @@ namespace BeaconColorCalculator
 
             // Glas-Kombination als Output, nicht der beste RGB Wert
             //
+            */
         }
 
         private void btn_cont_Click(object sender, RoutedEventArgs e)
         {
-            RGB target;
+            RGB target = new(0, 0, 0);
             if (rb_rgb.IsChecked == true)
             {
-                target = new RGB(Convert.ToByte(txt_red), Convert.ToByte(txt_green), Convert.ToByte(txt_blue));
+                target = new RGB(Convert.ToByte(txt_red.Text), Convert.ToByte(txt_green.Text), Convert.ToByte(txt_blue.Text));
             }
-            else if (rb_hex.IsChecker == true)
+            else if (rb_hex.IsChecked == true)
             {
-                target = new RGB(ColorTranslator.FromHtml("#ff4500").R, ColorTranslator.FromHtml("#ff4500").G, ColorTranslator.FromHtml("#ff4500").B);
+                target = new RGB(ColorTranslator.FromHtml(txt_hex.Text).R, ColorTranslator.FromHtml(txt_hex.Text).G, ColorTranslator.FromHtml(txt_hex.Text).B);
             }
             GlassCombination output = Glass.FindBestCombination(target);
             lbl_outputColor.Content = output.GetRGB().ToString();
@@ -385,6 +413,18 @@ namespace BeaconColorCalculator
 
             lbl_glass2.Content = output.GetGlasses()[1].GetType();
             lbl_glass2.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[1].GetColor().GetRed(), output.GetGlasses()[1].GetColor().GetGreen(), output.GetGlasses()[1].GetColor().GetBlue()));
+
+            lbl_glass3.Content = output.GetGlasses()[2].GetType();
+            lbl_glass3.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[2].GetColor().GetRed(), output.GetGlasses()[2].GetColor().GetGreen(), output.GetGlasses()[2].GetColor().GetBlue()));
+
+            lbl_glass4.Content = output.GetGlasses()[3].GetType();
+            lbl_glass4.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[3].GetColor().GetRed(), output.GetGlasses()[3].GetColor().GetGreen(), output.GetGlasses()[3].GetColor().GetBlue()));
+
+            lbl_glass5.Content = output.GetGlasses()[4].GetType();
+            lbl_glass5.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[4].GetColor().GetRed(), output.GetGlasses()[4].GetColor().GetGreen(), output.GetGlasses()[4].GetColor().GetBlue()));
+
+            lbl_glass6.Content = output.GetGlasses()[5].GetType();
+            lbl_glass6.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[5].GetColor().GetRed(), output.GetGlasses()[5].GetColor().GetGreen(), output.GetGlasses()[5].GetColor().GetBlue()));
         }
     }
     struct GlassCombination
