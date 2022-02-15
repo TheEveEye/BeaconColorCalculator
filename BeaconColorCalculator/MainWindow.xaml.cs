@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -152,6 +152,60 @@ namespace BeaconColorCalculator
                 totalB += rGBs[i].GetBlue();
             }
             return new(Convert.ToByte(totalR / rGBs.Length), Convert.ToByte(totalG / rGBs.Length), Convert.ToByte(totalB / rGBs.Length));
+        }
+        public int GetMax()
+        {
+            return Math.Max(Math.Max(red, green), blue);
+        }
+        public int GetMin()
+        {
+            return Math.Min(Math.Min(red, green), blue);
+        }
+        public int GetHue()
+        {
+            double min = GetMin();
+            double max = GetMax();
+
+            if (min == max)
+            {
+                return 0;
+            }
+
+            double hue = 0;
+            if (max == red)
+            {
+                hue = (green - blue) / (max - min);
+            }
+            else if (max == g)
+            {
+                hue = 2 + (blue - red) / (max - min);
+            }
+            else
+            {
+                hue = 4 + (red - green) / (max - min);
+            }
+
+            hue = hue * 60;
+            if (hue < 0)
+            {
+                hue = hue + 360;
+            }
+            return Convert.ToInt32(Math.Round(hue));
+        }
+        public SolidColorBrush FindBackgroundColor()
+        {
+            if (gradient[i].GetHue() < 240 && gradient[i].GetHue() > 60)
+            {
+                return new SolidColorBrush(Colors.Black);
+            }
+            else
+            {
+                return new SolidColorBrush(Colors.White);
+            }
+            if (gradient[i].GetLuminance() > 0.5)
+            {
+                return new SolidColorBrush(Colors.Black);
+            }
         }
     }
 
@@ -307,7 +361,25 @@ namespace BeaconColorCalculator
 
         private void btn_cont_Click(object sender, RoutedEventArgs e)
         {
+            RGB target;
+            if (rb_rgb.IsChecked == true)
+            {
+                target = new RGB(Convert.ToByte(txt_red), Convert.ToByte(txt_green), Convert.ToByte(txt_blue));
+            }
+            else if (rb_hex.IsChecker == true)
+            {
+                target = new RGB(ColorTranslator.FromHtml("#ff4500").R, ColorTranslator.FromHtml("#ff4500").G, ColorTranslator.FromHtml("#ff4500").B);
+            }
+            GlassCombination output = Glass.FindBestCombination(target);
+            lbl_outputColor.Content = output.GetRGB().ToString();
+            lbl_outputColor.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 255, 255));
+            lbl_outputColor.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetRGB().GetRed(), output.GetRGB().GetGreen(), output.GetRGB().GetBlue()));
 
+            lbl_glass1.Content = output.GetGlasses()[0].GetType();
+            lbl_glass1.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[0].GetColor().GetRed(), output.GetGlasses()[0].GetColor().GetGreen(), output.GetGlasses()[0].GetColor().GetBlue()));
+
+            lbl_glass2.Content = output.GetGlasses()[1].GetType();
+            lbl_glass2.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[1].GetColor().GetRed(), output.GetGlasses()[1].GetColor().GetGreen(), output.GetGlasses()[1].GetColor().GetBlue()));
         }
     }
     struct GlassCombination
