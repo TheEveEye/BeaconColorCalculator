@@ -11,16 +11,17 @@
             <RowDefinition Height="50"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition/>
+            <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25">Input</Label>
-        <Label Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25">Output</Label>
-        
+        <Label Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25">Output</Label>
+
         <StackPanel Grid.Row="1" Grid.Column="0" Margin="10">
             <Label>Input Type</Label>
             <RadioButton GroupName="InputType" IsChecked="True" x:Name="rb_rgb">RGB</RadioButton>
@@ -31,7 +32,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
-                <RowDefinition/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -41,17 +43,28 @@
                 <ColumnDefinition Width="75"/>
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Padding="0, 5, 10, 5" FontSize="14">RGB</Label>
-            <TextBox Grid.Row="0" Grid.Column="1" Margin="5" Width="50" HorizontalAlignment="Left" x:Name="txt_red">Red</TextBox>
-            <TextBox Grid.Row="0" Grid.Column="2" Margin="5" Width="50" HorizontalAlignment="Left" x:Name="txt_green">Green</TextBox>
-            <TextBox Grid.Row="0" Grid.Column="3" Margin="5" Width="50" HorizontalAlignment="Left" x:Name="txt_blue">Blue</TextBox>
+            <Label Grid.Row="0" HorizontalAlignment="Center" Padding="0, 5, 10, 5" FontSize="14">RGB</Label>
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="5,5,0,5" Width="50" HorizontalAlignment="Left" x:Name="txt_red">Red</TextBox>
+            <TextBox Grid.Row="0" Grid.Column="2" Margin="5,5,0,5" Width="50" HorizontalAlignment="Left" x:Name="txt_green">Green</TextBox>
+            <TextBox Grid.Row="0" Grid.Column="3" Margin="5,5,0,5" Width="50" HorizontalAlignment="Left" x:Name="txt_blue">Blue</TextBox>
 
-            <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Padding="0, 5, 10, 5" FontSize="14">Hex</Label>
-            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="5" Width="100" HorizontalAlignment="Left" x:Name="txt_hex">HEX-Code</TextBox>
+            <Label Grid.Row="1" HorizontalAlignment="Center" Padding="0, 5, 10, 5" FontSize="14">Hex</Label>
+            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="5,5,0,5" Width="100" HorizontalAlignment="Left" x:Name="txt_hex">HEX-Code</TextBox>
 
-            <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="3" Margin="5" x:Name="btn_cont">Continue</Button>
+            <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="5" x:Name="lbl_inputColor"></Label>
+            <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="3" Margin="0,5,0,0" x:Name="btn_cont" Grid.RowSpan="2" Click="btn_cont_Click">Continue</Button>
         </Grid>
 
-        <Label Grid.Row="1" Grid.Column="2" FontSize="30" x:Name="lbl_output">test</Label>
+        <Label Grid.Row="1" Grid.Column="2" FontSize="20" Margin="10" VerticalAlignment="Top" x:Name="lbl_outputColor"></Label>
+        <StackPanel Grid.Row="1" Grid.Column="3">
+            <Label FontSize="20" Margin="5" VerticalAlignment="Top" x:Name="lbl_glass1"></Label>
+            <Label FontSize="20" Margin="5" VerticalAlignment="Top" x:Name="lbl_glass2"></Label>
+            <Label FontSize="20" Margin="5" VerticalAlignment="Top" x:Name="lbl_glass3"></Label>
+            <Label FontSize="20" Margin="5" VerticalAlignment="Top" x:Name="lbl_glass4"></Label>
+            <Label FontSize="20" Margin="5" VerticalAlignment="Top" x:Name="lbl_glass5"></Label>
+            <Label FontSize="20" Margin="5" VerticalAlignment="Top" x:Name="lbl_glass6"></Label>
+        </StackPanel>
+        
+        
     </Grid>
 </Window>
