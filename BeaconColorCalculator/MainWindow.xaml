@@ -51,12 +51,16 @@
             <Label Grid.Row="1" HorizontalAlignment="Center" Padding="0, 5, 10, 5" FontSize="14">Hex</Label>
             <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="5,5,0,5" Width="100" HorizontalAlignment="Left" x:Name="txt_hex">HEX-Code</TextBox>
 
-            <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="5" x:Name="lbl_inputColor"></Label>
             <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="3" Margin="0,5,0,0" x:Name="btn_cont" Grid.RowSpan="2" Click="btn_cont_Click">Continue</Button>
         </Grid>
-
-        <Label Grid.Row="1" Grid.Column="2" FontSize="20" Margin="10" VerticalAlignment="Top" x:Name="lbl_outputColor"></Label>
-        <StackPanel Grid.Row="1" Grid.Column="3">
+        
+		<StackPanel Grid.Row="1" Grid.Column="2">
+			<Label FontSize="20" Margin="5" VerticalAlignment="Top">Input Color</Label>
+			<Label FontSize="18" Margin="10" VerticalAlignment="Top" x:Name="lbl_inputColor"></Label>
+			<Label FontSize="20" Margin="5" VerticalAlignment="Top">Closest Color</Label>
+			<Label FontSize="18" Margin="10" VerticalAlignment="Top" x:Name="lbl_outputColor"></Label>
+		</StackPanel>
+		<StackPanel Grid.Row="1" Grid.Column="3">
             <Label FontSize="20" Margin="5" VerticalAlignment="Top" x:Name="lbl_glass1"></Label>
             <Label FontSize="20" Margin="5" VerticalAlignment="Top" x:Name="lbl_glass2"></Label>
             <Label FontSize="20" Margin="5" VerticalAlignment="Top" x:Name="lbl_glass3"></Label>

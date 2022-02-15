@@ -121,16 +121,16 @@ namespace BeaconColorCalculator
 
         // Function to convert the
         // RGB code to Hex color code
-        public static string ToHex(RGB rgb)
+        public string ToHex()
         {
-            if ((rgb.red >= 0 && rgb.red <= 255) &&
-                (rgb.green >= 0 && rgb.green <= 255) &&
-                (rgb.blue >= 0 && rgb.blue <= 255))
+            if ((red >= 0 && red <= 255) &&
+                (green >= 0 && green <= 255) &&
+                (blue >= 0 && blue <= 255))
             {
                 string hexCode = "#";
-                hexCode += DecToHexa(rgb.red);
-                hexCode += DecToHexa(rgb.green);
-                hexCode += DecToHexa(rgb.blue);
+                hexCode += DecToHexa(red);
+                hexCode += DecToHexa(green);
+                hexCode += DecToHexa(blue);
 
                 return hexCode;
             }
@@ -152,6 +152,11 @@ namespace BeaconColorCalculator
                 totalB += rGBs[i].GetBlue();
             }
             return new(Convert.ToByte(totalR / rGBs.Length), Convert.ToByte(totalG / rGBs.Length), Convert.ToByte(totalB / rGBs.Length));
+        }
+        public static RGB FindAverage(RGB rgb1, RGB rgb2)
+        {
+            RGB[] rGBs = {rgb1, rgb2};
+            return FindAverage(rGBs);
         }
         public int GetMax()
         {
@@ -197,7 +202,7 @@ namespace BeaconColorCalculator
             double luminance = (double)(red + green + blue) / 3 / 255;
             return Convert.ToInt32(Math.Round(luminance));
         }
-        public SolidColorBrush FindBackgroundColor()
+        public SolidColorBrush FindForegroundColor()
         {
             SolidColorBrush color = new SolidColorBrush(Colors.Black);
             if (GetHue() < 240 && GetHue() > 60)
@@ -353,13 +358,13 @@ namespace BeaconColorCalculator
 
         public static RGB FindAverageColor(Glass[] glasses) //Glasses can be a maximum of 6 since the color does not change after 6 glass blocks
         {
-            RGB[] colors = new RGB[glasses.Length];
+            RGB[] colors = new RGB[6];
 
-            for (int i = 0; i < glasses.Length; i++)
+            for (int i = 0; i < 6; i++)
             {
                 colors[i] = glasses[i].color;
             }
-            return RGB.FindAverage(colors);
+            return RGB.FindAverage(colors[5], RGB.FindAverage(colors[4], RGB.FindAverage(colors[3], RGB.FindAverage(colors[2], colors[1]))));
         }
     }
 
@@ -398,33 +403,50 @@ namespace BeaconColorCalculator
             if (rb_rgb.IsChecked == true)
             {
                 target = new RGB(Convert.ToByte(txt_red.Text), Convert.ToByte(txt_green.Text), Convert.ToByte(txt_blue.Text));
+                
+                txt_hex.Text = target.ToHex();
             }
             else if (rb_hex.IsChecked == true)
             {
                 target = new RGB(ColorTranslator.FromHtml(txt_hex.Text).R, ColorTranslator.FromHtml(txt_hex.Text).G, ColorTranslator.FromHtml(txt_hex.Text).B);
+                
+                txt_red.Text = target.GetRed().ToString();
+                txt_green.Text = target.GetGreen().ToString();
+                txt_blue.Text = target.GetBlue().ToString();
             }
+
+            lbl_inputColor.Content = target.ToString() + "\n" + target.ToHex();
+            lbl_inputColor.Foreground = target.FindForegroundColor();
+            lbl_inputColor.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(target.GetRed(), target.GetGreen(), target.GetBlue()));
+            
             GlassCombination output = Glass.FindBestCombination(target);
-            lbl_outputColor.Content = output.GetRGB().ToString();
-            lbl_outputColor.Foreground = new SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 255, 255));
+            lbl_outputColor.Content = output.GetRGB().ToString() + "\n" + output.GetRGB().ToHex();
+            lbl_outputColor.Foreground = output.GetRGB().FindForegroundColor();
             lbl_outputColor.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetRGB().GetRed(), output.GetRGB().GetGreen(), output.GetRGB().GetBlue()));
-
-            lbl_glass1.Content = output.GetGlasses()[0].GetType();
-            lbl_glass1.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[0].GetColor().GetRed(), output.GetGlasses()[0].GetColor().GetGreen(), output.GetGlasses()[0].GetColor().GetBlue()));
-
-            lbl_glass2.Content = output.GetGlasses()[1].GetType();
-            lbl_glass2.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[1].GetColor().GetRed(), output.GetGlasses()[1].GetColor().GetGreen(), output.GetGlasses()[1].GetColor().GetBlue()));
-
-            lbl_glass3.Content = output.GetGlasses()[2].GetType();
-            lbl_glass3.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[2].GetColor().GetRed(), output.GetGlasses()[2].GetColor().GetGreen(), output.GetGlasses()[2].GetColor().GetBlue()));
-
-            lbl_glass4.Content = output.GetGlasses()[3].GetType();
-            lbl_glass4.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[3].GetColor().GetRed(), output.GetGlasses()[3].GetColor().GetGreen(), output.GetGlasses()[3].GetColor().GetBlue()));
-
-            lbl_glass5.Content = output.GetGlasses()[4].GetType();
-            lbl_glass5.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[4].GetColor().GetRed(), output.GetGlasses()[4].GetColor().GetGreen(), output.GetGlasses()[4].GetColor().GetBlue()));
 
             lbl_glass6.Content = output.GetGlasses()[5].GetType();
             lbl_glass6.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[5].GetColor().GetRed(), output.GetGlasses()[5].GetColor().GetGreen(), output.GetGlasses()[5].GetColor().GetBlue()));
+            lbl_outputColor.Foreground = output.GetGlasses()[5].GetColor().FindForegroundColor();
+
+            lbl_glass5.Content = output.GetGlasses()[4].GetType();
+            lbl_glass5.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[4].GetColor().GetRed(), output.GetGlasses()[4].GetColor().GetGreen(), output.GetGlasses()[4].GetColor().GetBlue()));
+            lbl_outputColor.Foreground = output.GetGlasses()[4].GetColor().FindForegroundColor();
+
+            lbl_glass4.Content = output.GetGlasses()[3].GetType();
+            lbl_glass4.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[3].GetColor().GetRed(), output.GetGlasses()[3].GetColor().GetGreen(), output.GetGlasses()[3].GetColor().GetBlue()));
+            lbl_outputColor.Foreground = output.GetGlasses()[3].GetColor().FindForegroundColor();
+
+            lbl_glass3.Content = output.GetGlasses()[2].GetType();
+            lbl_glass3.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[2].GetColor().GetRed(), output.GetGlasses()[2].GetColor().GetGreen(), output.GetGlasses()[2].GetColor().GetBlue()));
+            lbl_outputColor.Foreground = output.GetGlasses()[2].GetColor().FindForegroundColor();
+
+            lbl_glass2.Content = output.GetGlasses()[1].GetType();
+            lbl_glass2.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[1].GetColor().GetRed(), output.GetGlasses()[1].GetColor().GetGreen(), output.GetGlasses()[1].GetColor().GetBlue()));
+            lbl_outputColor.Foreground = output.GetGlasses()[1].GetColor().FindForegroundColor();
+
+            lbl_glass1.Content = output.GetGlasses()[0].GetType();
+            lbl_glass1.Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(output.GetGlasses()[0].GetColor().GetRed(), output.GetGlasses()[0].GetColor().GetGreen(), output.GetGlasses()[0].GetColor().GetBlue()));
+            lbl_outputColor.Foreground = output.GetGlasses()[0].GetColor().FindForegroundColor();
         }
     }
     struct GlassCombination
