@@ -192,9 +192,14 @@ namespace BeaconColorCalculator
             }
             return Convert.ToInt32(Math.Round(hue));
         }
+        public int GetBrightness()
+        {
+            double luminance = (double)(r + g + b) / 3 / 255;
+            return Convert.ToInt32(Math.Round(luminance));
+        }
         public SolidColorBrush FindBackgroundColor()
         {
-            if (gradient[i].GetHue() < 240 && gradient[i].GetHue() > 60)
+            if (GetHue() < 240 && GetHue() > 60)
             {
                 return new SolidColorBrush(Colors.Black);
             }
@@ -202,7 +207,7 @@ namespace BeaconColorCalculator
             {
                 return new SolidColorBrush(Colors.White);
             }
-            if (gradient[i].GetLuminance() > 0.5)
+            if (GetBrightness() > 0.5)
             {
                 return new SolidColorBrush(Colors.Black);
             }
