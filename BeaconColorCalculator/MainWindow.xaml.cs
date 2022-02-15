@@ -364,7 +364,7 @@ namespace BeaconColorCalculator
             {
                 colors[i] = glasses[i].color;
             }
-            return RGB.FindAverage(colors[5], RGB.FindAverage(colors[4], RGB.FindAverage(colors[3], RGB.FindAverage(colors[2], colors[1]))));
+            return RGB.FindAverage(colors[5], RGB.FindAverage(colors[4], RGB.FindAverage(colors[3], RGB.FindAverage(colors[2], RGB.FindAverage(colors[1], colors[0])))));
         }
     }
 
