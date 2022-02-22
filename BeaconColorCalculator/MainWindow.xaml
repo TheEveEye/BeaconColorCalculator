@@ -60,15 +60,8 @@
 			<Label FontSize="20" Margin="5" VerticalAlignment="Top">Closest Color</Label>
 			<Label FontSize="18" Margin="10" VerticalAlignment="Top" x:Name="lbl_outputColor"></Label>
 		</StackPanel>
-		<StackPanel Grid.Row="1" Grid.Column="3">
-            <Label FontSize="20" Margin="5" VerticalAlignment="Top" x:Name="lbl_glass1"></Label>
-            <Label FontSize="20" Margin="5" VerticalAlignment="Top" x:Name="lbl_glass2"></Label>
-            <Label FontSize="20" Margin="5" VerticalAlignment="Top" x:Name="lbl_glass3"></Label>
-            <Label FontSize="20" Margin="5" VerticalAlignment="Top" x:Name="lbl_glass4"></Label>
-            <Label FontSize="20" Margin="5" VerticalAlignment="Top" x:Name="lbl_glass5"></Label>
-            <Label FontSize="20" Margin="5" VerticalAlignment="Top" x:Name="lbl_glass6"></Label>
-        </StackPanel>
-        
-        
+		<StackPanel x:Name="stack_output" Grid.Row="1" Grid.Column="3">
+            
+        	</StackPanel>
     </Grid>
 </Window>
