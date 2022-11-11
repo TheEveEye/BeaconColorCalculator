@@ -43,12 +43,12 @@
                 <ColumnDefinition Width="75"/>
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" HorizontalAlignment="Center" Padding="0, 5, 10, 5" FontSize="14">RGB</Label>
+            <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Padding="0, 5, 10, 5" FontSize="14">RGB</Label>
             <TextBox Grid.Row="0" Grid.Column="1" Margin="5,5,0,5" Width="50" HorizontalAlignment="Left" x:Name="txt_red">Red</TextBox>
             <TextBox Grid.Row="0" Grid.Column="2" Margin="5,5,0,5" Width="50" HorizontalAlignment="Left" x:Name="txt_green">Green</TextBox>
             <TextBox Grid.Row="0" Grid.Column="3" Margin="5,5,0,5" Width="50" HorizontalAlignment="Left" x:Name="txt_blue">Blue</TextBox>
 
-            <Label Grid.Row="1" HorizontalAlignment="Center" Padding="0, 5, 10, 5" FontSize="14">Hex</Label>
+            <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Padding="0, 5, 10, 5" FontSize="14">Hex</Label>
             <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="5,5,0,5" Width="100" HorizontalAlignment="Left" x:Name="txt_hex">HEX-Code</TextBox>
 
             <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="3" Margin="0,5,0,0" x:Name="btn_cont" Grid.RowSpan="2" Click="btn_cont_Click">Continue</Button>
